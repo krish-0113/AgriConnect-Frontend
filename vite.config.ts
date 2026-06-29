@@ -5,7 +5,7 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 3000,
-    allowedHosts: ['sb-7mozeajfv0v7.vercel.run', 'localhost', '127.0.0.1'],
+    allowedHosts: ['sb-7mozeajfv0v7.vercel.run', 'sb-7dpbck75vxrq.vercel.run', 'localhost', '127.0.0.1'],
   },
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
