@@ -1,10 +1,5 @@
 import { Navigate } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
-import { UserRole } from '../store/slices/authSlice';
-
-  children.ReactNode;
-  allowedRoles?[];
-}
+import { useAuth } from '../hooks/useAuth.js';
 
 export default function ProtectedRoute({ children, allowedRoles }) {
   const { user, isAuthenticated } = useAuth();

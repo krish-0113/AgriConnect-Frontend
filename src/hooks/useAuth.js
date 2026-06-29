@@ -22,7 +22,7 @@ export const useAuth = () => {
         dispatch(setLoading(true));
         dispatch(clearError());
         const response = await authService.login({ email, password });
-        dispatch(setTokens({ token, refreshToken));
+        dispatch(setTokens({ : '', : '' });
         dispatch(setUser(response.user));
         return response.user;
       } catch (err) {
@@ -60,7 +60,7 @@ export const useAuth = () => {
         dispatch(setLoading(true));
         dispatch(clearError());
         const response = await authService.verifyOTP(email, otp);
-        dispatch(setTokens({ token, refreshToken));
+        dispatch(setTokens({ : '', : '' });
         dispatch(setUser(response.user));
         return response.user;
       } catch (err) {

@@ -10,8 +10,7 @@ const initialState = {
 const companiesSlice = createSlice({
   name,
   initialState,
-  reducers: {
-    setCompanies, action) => {
+  reducers: { : '', : '' } => {
       state.companies = action.payload;
     },
     setSelectedCompany, action) => {

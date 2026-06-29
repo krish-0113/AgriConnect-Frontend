@@ -209,7 +209,7 @@ async function verifyResetOTP(email, otp) {
     return new Promise((resolve, reject) => {
       setTimeout(() => {
         if (otp === '654321') {
-          resolve({ message, verified);
+          resolve({ : '', : '' };
         } else {
           reject(new Error('Invalid Reset OTP. Please enter 654321.'));
         }
@@ -248,7 +248,6 @@ async function resetPassword(email, otp, data) {
       email,
       otp,
       password,
-      confirmPassword: data.confirmPassword
     });
     return response.data;
   } catch (error) {

@@ -2,8 +2,6 @@ import { useState, forwardRef } from 'react';
 import { Eye, EyeOff, Lock } from 'lucide-react';
 import Input from './Input';
 
-  label;
-  error?;
 }
 
 const PasswordField = forwardRef(

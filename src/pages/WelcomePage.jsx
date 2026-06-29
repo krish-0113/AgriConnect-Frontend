@@ -59,7 +59,6 @@ export default function WelcomePage() {
       text=== 'en' 
         ? "AgriConnect helped me hire 12 harvester operators in under 24 hours. The direct OTP verification gives me peace of mind."
         ,
-      rating: 5
     },
     {
       name,
@@ -67,7 +66,6 @@ export default function WelcomePage() {
       text=== 'en'
         ? "I found consistent orchard jobs nearby with honest daily wage rates. I don't pay any broker commissions anymore!"
         ,
-      rating: 5
     },
     {
       name,
@@ -75,7 +73,6 @@ export default function WelcomePage() {
       text=== 'en'
         ? "The work logging system is simple and transparent. The farmers paid me exactly what was agreed on our log logs."
         ,
-      rating: 5
     }
   ];
 

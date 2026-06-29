@@ -1,24 +1,10 @@
 import React, { createContext, useContext, useState, useCallback } from 'react';
 import { AlertCircle, CheckCircle, Info, X, XCircle } from 'lucide-react';
 
-
-  id;
-  message;
-  type;
-  duration?;
-}
-
-
-
-
-
-
-}
-
-const ToastContext = createContext<ToastContextType | undefined>(undefined);
+const ToastContext = createContext(undefined);
 
 export function ToastProvider({ children }) {
-  const [toasts, setToasts] = useState<Toast[]>([]);
+  const [toasts, setToasts] = useState([]);
 
   const removeToast = useCallback((id) => {
     setToasts((prev) => prev.filter((toast) => toast.id !== id));
@@ -33,10 +19,10 @@ export function ToastProvider({ children }) {
     }, duration);
   }, [removeToast]);
 
-  const success = useCallback((message, duration?) => showToast(message, 'success', duration), [showToast]);
-  const error = useCallback((message, duration?) => showToast(message, 'error', duration), [showToast]);
-  const info = useCallback((message, duration?) => showToast(message, 'info', duration), [showToast]);
-  const warning = useCallback((message, duration?) => showToast(message, 'warning', duration), [showToast]);
+  const success = useCallback((message, duration) => showToast(message, 'success', duration), [showToast]);
+  const error = useCallback((message, duration) => showToast(message, 'error', duration), [showToast]);
+  const info = useCallback((message, duration) => showToast(message, 'info', duration), [showToast]);
+  const warning = useCallback((message, duration) => showToast(message, 'warning', duration), [showToast]);
 
   return (
     <ToastContext.Provider value={{ showToast, success, error, info, warning }}>

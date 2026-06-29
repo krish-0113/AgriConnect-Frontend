@@ -9,18 +9,13 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default,
-        outline:
           'border-border bg-background hover,
-        secondary:
           'bg-secondary text-secondary-foreground hover,
-        ghost:
           'hover,
-        destructive:
           'bg-destructive/10 text-destructive hover,
         link,
       },
       size: {
-        default:
           'h-8 gap-1.5 px-2.5 has-data-[icon=inline-end]=inline-start],
         xs),10px)] px-2 text-xs in-data-[slot=button-group]=inline-end]=inline-start]='size-'])],
         sm),12px)] px-2.5 text-[0.8rem] in-data-[slot=button-group]=inline-end]=inline-start]='size-'])],

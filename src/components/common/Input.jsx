@@ -1,7 +1,5 @@
 import React, { forwardRef } from 'react';
 
-  label;
-  error?;
   icon?.ReactNode;
 }
 

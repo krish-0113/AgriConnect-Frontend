@@ -25,7 +25,7 @@ export default function RegisterPage() {
     role,
   });
 
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [errors, setErrors] = useState({});
 
   const handleSubmit = async (e.FormEvent) => {
     e.preventDefault();

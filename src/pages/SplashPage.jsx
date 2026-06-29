@@ -16,7 +16,7 @@ export default function SplashPage() {
         try {
           const user = await loadCurrentUser();
           if (user) {
-            navigate('/dashboard', { replace);
+            navigate('/dashboard', { replace: true });
             return;
           }
         } catch (e) {
@@ -25,7 +25,7 @@ export default function SplashPage() {
       }
       
       // Default fallback
-      navigate('/welcome', { replace);
+      navigate('/welcome', { replace: true });
     };
 
     checkAuth();

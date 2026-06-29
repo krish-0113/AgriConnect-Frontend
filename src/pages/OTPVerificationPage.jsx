@@ -46,7 +46,7 @@ export default function OTPVerificationPage() {
       toast.success('Account activated successfully!');
       
       // Navigate to complete profile page
-      navigate('/complete-profile', { state, replace);
+      navigate('/complete-profile', { : '', : '' };
     } catch (err) {
       toast.error(err.message || 'Verification failed. Try again.');
     }

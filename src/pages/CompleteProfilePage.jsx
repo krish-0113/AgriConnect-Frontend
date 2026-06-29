@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
-import { useToast } from '../components/common/Toast';
-import Input from '../components/common/Input';
-import PrimaryButton from '../components/common/PrimaryButton';
+import { useAuth } from '../hooks/useAuth.js';
+import { useToast } from '../components/common/Toast.jsx';
+import Input from '../components/common/Input.jsx';
+import PrimaryButton from '../components/common/PrimaryButton.jsx';
 import { UserCheck, Landmark, Briefcase, MapPin, Award, DollarSign } from 'lucide-react';
 
 export default function CompleteProfilePage() {
@@ -16,26 +16,15 @@ export default function CompleteProfilePage() {
 
   // State for Worker profile
   const [workerData, setWorkerData] = useState({
-    title,
-    experienceYears,
-    hourlyRate,
-    location,
-    skills,
-    bio,
   });
 
   // State for Company profile
   const [companyData, setCompanyData] = useState({
-    companyName,
-    category,
-    location,
-    website,
-    description,
   });
 
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [errors, setErrors] = useState({});
 
-  const handleWorkerSubmit = async (e.FormEvent) => {
+  const handleWorkerSubmit = async (e) => {
     e.preventDefault();
     setErrors({});
     const newErrors = {};
@@ -56,12 +45,9 @@ export default function CompleteProfilePage() {
 
     try {
       await completeProfile('worker', {
-        title,
-        skills,').map(s => s.trim()).filter(Boolean),
-        experienceYears(workerData.experienceYears),
-        hourlyRate(workerData.hourlyRate),
-        location,
-        bio,
+          .split(',')
+          .map((s) => s.trim())
+          .filter(Boolean),
       });
       toast.success('Your profile is complete! Welcome to AgriConnect.');
       navigate('/dashboard');
@@ -70,7 +56,7 @@ export default function CompleteProfilePage() {
     }
   };
 
-  const handleCompanySubmit = async (e.FormEvent) => {
+  const handleCompanySubmit = async (e) => {
     e.preventDefault();
     setErrors({});
     const newErrors = {};
@@ -85,11 +71,6 @@ export default function CompleteProfilePage() {
 
     try {
       await completeProfile('company', {
-        name,
-        category,
-        location,
-        website,
-        description,
       });
       toast.success('Your Farm profile is complete! Start listing jobs.');
       navigate('/company-dashboard');
@@ -121,7 +102,7 @@ export default function CompleteProfilePage() {
               label="Primary Work Category / Job Title"
               placeholder="e.g. Harvester Operator, Field Laborer, Tractor Driver"
               value={workerData.title}
-              onChange={(e) => setWorkerData({ ...workerData, title)}
+              onChange={(e) => setWorkerData({ ...workerData, title: e.target.value })}
               error={errors.title}
               disabled={isLoading}
               required
@@ -133,7 +114,7 @@ export default function CompleteProfilePage() {
                 type="number"
                 placeholder="e.g. 5"
                 value={workerData.experienceYears}
-                onChange={(e) => setWorkerData({ ...workerData, experienceYears)}
+                onChange={(e) => setWorkerData({ ...workerData, experienceYears: e.target.value })}
                 error={errors.experienceYears}
                 disabled={isLoading}
                 icon={<Award size={18} />}
@@ -145,7 +126,7 @@ export default function CompleteProfilePage() {
                 type="number"
                 placeholder="e.g. 600"
                 value={workerData.hourlyRate}
-                onChange={(e) => setWorkerData({ ...workerData, hourlyRate)}
+                onChange={(e) => setWorkerData({ ...workerData, hourlyRate: e.target.value })}
                 error={errors.hourlyRate}
                 disabled={isLoading}
                 icon={<DollarSign size={18} />}
@@ -157,7 +138,7 @@ export default function CompleteProfilePage() {
               label="Current Location (City / District)"
               placeholder="e.g. Sangrur, Punjab"
               value={workerData.location}
-              onChange={(e) => setWorkerData({ ...workerData, location)}
+              onChange={(e) => setWorkerData({ ...workerData, location: e.target.value })}
               error={errors.location}
               disabled={isLoading}
               icon={<MapPin size={18} />}
@@ -168,7 +149,7 @@ export default function CompleteProfilePage() {
               label="Key Skills (Separated by commas)"
               placeholder="e.g. Wheat Harvesting, Organic Composting, Tractor Operation"
               value={workerData.skills}
-              onChange={(e) => setWorkerData({ ...workerData, skills)}
+              onChange={(e) => setWorkerData({ ...workerData, skills: e.target.value })}
               disabled={isLoading}
             />
 
@@ -180,7 +161,7 @@ export default function CompleteProfilePage() {
                 rows={3}
                 placeholder="Share a brief overview of your farming background and skills..."
                 value={workerData.bio}
-                onChange={(e) => setWorkerData({ ...workerData, bio)}
+                onChange={(e) => setWorkerData({ ...workerData, bio: e.target.value })}
                 disabled={isLoading}
                 className="block w-full px-4 py-2.5 rounded-lg border border-border text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
               />
@@ -200,7 +181,7 @@ export default function CompleteProfilePage() {
               label="Farm / Company Name"
               placeholder="e.g. Golden Crops Agribusiness"
               value={companyData.companyName}
-              onChange={(e) => setCompanyData({ ...companyData, companyName)}
+              onChange={(e) => setCompanyData({ ...companyData, companyName: e.target.value })}
               error={errors.companyName}
               disabled={isLoading}
               required
@@ -212,9 +193,9 @@ export default function CompleteProfilePage() {
               </label>
               <select
                 value={companyData.category}
-                onChange={(e) => setCompanyData({ ...companyData, category)}
+                onChange={(e) => setCompanyData({ ...companyData, category: e.target.value })}
                 disabled={isLoading}
-                className="block w-full px-4.5 py-2.5 rounded-lg border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white transition-all"
+                className="block w-full px-4 py-2.5 rounded-lg border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent bg-white transition-all"
               >
                 <option value="Crop Cultivation">Grain & Crop Cultivation</option>
                 <option value="Dairy Farming">Dairy & Cattle Husbandry</option>
@@ -228,7 +209,7 @@ export default function CompleteProfilePage() {
               label="Farm Location / Address"
               placeholder="e.g. Nashik, Maharashtra"
               value={companyData.location}
-              onChange={(e) => setCompanyData({ ...companyData, location)}
+              onChange={(e) => setCompanyData({ ...companyData, location: e.target.value })}
               error={errors.location}
               disabled={isLoading}
               icon={<MapPin size={18} />}
@@ -239,7 +220,7 @@ export default function CompleteProfilePage() {
               label="Contact Website or Phone Link (Optional)"
               placeholder="e.g. www.goldencrops.com"
               value={companyData.website}
-              onChange={(e) => setCompanyData({ ...companyData, website)}
+              onChange={(e) => setCompanyData({ ...companyData, website: e.target.value })}
               disabled={isLoading}
             />
 
@@ -251,7 +232,7 @@ export default function CompleteProfilePage() {
                 rows={3}
                 placeholder="Describe your cultivation crops, machinery, or company background..."
                 value={companyData.description}
-                onChange={(e) => setCompanyData({ ...companyData, description)}
+                onChange={(e) => setCompanyData({ ...companyData, description: e.target.value })}
                 disabled={isLoading}
                 className="block w-full px-4 py-2.5 rounded-lg border border-border text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
               />

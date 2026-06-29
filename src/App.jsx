@@ -75,10 +75,10 @@ function App() {
                 <Route element={<Layout />}>
                   <Route path="/home" element={<HomePage />} />
                   <Route path="/jobs" element={<Suspense fallback={<PageLoader />}><JobListingPage /></Suspense>} />
-                  <Route path="/jobs/={<Suspense fallback={<PageLoader />}><JobDetailPage /></Suspense>} />
+                  <Route path="/jobs/:id" element={<Suspense fallback={<PageLoader />}><JobDetailPage /></Suspense>} />
                   <Route path="/workers" element={<Suspense fallback={<PageLoader />}><WorkerListingPage /></Suspense>} />
-                  <Route path="/workers/={<Suspense fallback={<PageLoader />}><WorkerDetailPage /></Suspense>} />
-                  <Route path="/companies/={<Suspense fallback={<PageLoader />}><CompanyDetailPage /></Suspense>} />
+                  <Route path="/workers/:id" element={<Suspense fallback={<PageLoader />}><WorkerDetailPage /></Suspense>} />
+                  <Route path="/companies/:id" element={<Suspense fallback={<PageLoader />}><CompanyDetailPage /></Suspense>} />
 
                   {/* Protected Routes */}
                   <Route

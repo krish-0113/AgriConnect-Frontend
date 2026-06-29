@@ -9,8 +9,7 @@ const initialState = {
 const applicationsSlice = createSlice({
   name,
   initialState,
-  reducers: {
-    setApplications, action) => {
+  reducers: { : '', : '' } => {
       state.applications = action.payload;
     },
     setLoading, action) => {

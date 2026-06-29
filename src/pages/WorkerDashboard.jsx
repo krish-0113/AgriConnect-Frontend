@@ -7,9 +7,7 @@ export default function WorkerDashboard() {
   const { user } = useAuth();
   const applications = useAppSelector((state) => state.applications.applications);
 
-  const stats = {
-    total,
-    pending) => a.status === 'pending').length,
+  const stats = { : '', : '' } => a.status === 'pending').length,
     accepted) => a.status === 'accepted').length,
     offered) => a.status === 'offered').length,
   };

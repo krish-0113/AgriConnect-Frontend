@@ -19,7 +19,7 @@ export default function ResetPasswordPage() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     if (!email) {
@@ -53,7 +53,7 @@ export default function ResetPasswordPage() {
     try {
       await resetPassword(email, otp, { password, confirmPassword });
       toast.success('Your password has been reset successfully. Please login.');
-      navigate('/login', { replace);
+      navigate('/login', { replace: true });
     } catch (err) {
       toast.error(err.message || 'Failed to reset password. Please try again.');
     }

@@ -1,8 +1,5 @@
 import React from 'react';
 
-  loading?;
-  variant?;
-  fullWidth?;
 }
 
 export default function PrimaryButton({

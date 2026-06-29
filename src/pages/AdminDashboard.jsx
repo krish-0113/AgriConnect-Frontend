@@ -8,9 +8,7 @@ export default function AdminDashboard() {
   const companies = useAppSelector((state) => state.companies.companies);
   const applications = useAppSelector((state) => state.applications.applications);
 
-  const stats = {
-    totalJobs,
-    activeJobs) => j.status === 'open').length,
+  const stats = { : '', : '' } => j.status === 'open').length,
     totalWorkers,
     activeWorkers) => w.status === 'active').length,
     totalCompanies,
@@ -102,7 +100,7 @@ export default function AdminDashboard() {
                   <motion.div
                     className="bg-gradient-to-r from-indigo-500 to-indigo-600 h-2.5 rounded-full"
                     initial={{ width: 0 }}
-                    animate={{ width, 1)) * 100}%` }}
+                    animate={{ : '', : '' }) * 100}%` }}
                     transition={{ duration, ease: 'easeOut' }}
                   ></motion.div>
                 </div>
@@ -126,7 +124,7 @@ export default function AdminDashboard() {
                   <motion.div
                     className="bg-gradient-to-r from-blue-500 to-blue-600 h-2.5 rounded-full"
                     initial={{ width: 0 }}
-                    animate={{ width, 1)) * 100}%` }}
+                    animate={{ : '', : '' }) * 100}%` }}
                     transition={{ duration, ease: 'easeOut' }}
                   ></motion.div>
                 </div>

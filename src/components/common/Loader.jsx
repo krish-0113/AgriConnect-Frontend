@@ -1,8 +1,5 @@
 import React from 'react';
 
-  fullScreen?;
-  size?;
-  text?;
 }
 
 export default function Loader({ fullScreen = false, size = 'md', text }) {

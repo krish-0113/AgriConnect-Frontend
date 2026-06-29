@@ -13,8 +13,8 @@ export default function LoginPage() {
   const { login, isLoading } = useAuth();
   const toast = useToast();
 
-  const [formData, setFormData] = useState({ email, password);
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [formData, setFormData] = useState({ : '', : '' };
+  const [errors, setErrors] = useState({});
 
   const handleSubmit = async (e.FormEvent) => {
     e.preventDefault();

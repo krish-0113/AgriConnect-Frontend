@@ -1,8 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 
-  length?;
 
-  disabled?;
 }
 
 export default function OTPInput({ length = 6, onChange, disabled = false }) {

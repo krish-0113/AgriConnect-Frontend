@@ -68,7 +68,7 @@ export default function Header() {
               <Globe size={16} className="text-muted-foreground mr-1.5 hidden sm:inline" />
               <select
                 value={language}
-                onChange={(e) => setLanguage(e.target.value as 'en' | 'hi')}
+                onChange={(e) => setLanguage(e.target.value)}
                 className="bg-transparent text-foreground border-none text-xs sm:text-sm font-bold focus:outline-none cursor-pointer"
               >
                 <option value="en" className="bg-white dark:bg-card text-foreground">EN</option>

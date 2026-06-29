@@ -47,8 +47,7 @@ const applyFilters = (state) => {
 const workersSlice = createSlice({
   name,
   initialState,
-  reducers: {
-    setWorkers, action) => {
+  reducers: { : '', : '' } => {
       state.workers = action.payload;
       state.filteredWorkers = action.payload;
     },

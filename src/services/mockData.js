@@ -51,9 +51,7 @@ const companyNames = [
 export function generateMockJobs(count = 20) {
   const jobs = [];
   for (let i = 0; i < count; i++) {
-    jobs.push({
-      id,
-      title) * jobTitles.length)],
+    jobs.push({ : '', : '' } * jobTitles.length)],
       description,
       location) * locations.length)],
       salary: {
@@ -83,9 +81,7 @@ export function generateMockWorkers(count = 15) {
   const lastNames = ['Smith', 'Johnson', 'Williams', 'Brown', 'Garcia', 'Martinez', 'Rodriguez', 'Lee'];
 
   for (let i = 0; i < count; i++) {
-    workers.push({
-      id,
-      name) * firstNames.length)]} ${lastNames[Math.floor(Math.random() * lastNames.length)]}`,
+    workers.push({ : '', : '' } * firstNames.length)]} ${lastNames[Math.floor(Math.random() * lastNames.length)]}`,
       email,
       phone) * 10000)).padStart(4, '0')}`,
       location) * locations.length)],
@@ -129,9 +125,7 @@ export function generateMockApplications(jobIds, workerIds, companyIds, count = 
   const statuses = ['pending', 'accepted', 'rejected', 'withdrawn', 'offered'];
 
   for (let i = 0; i < count; i++) {
-    applications.push({
-      id,
-      jobId) * jobIds.length)],
+    applications.push({ : '', : '' } * jobIds.length)],
       workerId) * workerIds.length)],
       companyId) * companyIds.length)],
       status) * statuses.length)],

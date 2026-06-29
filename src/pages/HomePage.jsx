@@ -15,10 +15,7 @@ const HomePage = () => {
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
-      opacity: 1,
       transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.1,
       },
     },
   };
@@ -26,36 +23,18 @@ const HomePage = () => {
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
-      opacity: 1,
-      y: 0,
       transition: { duration: 0.8, ease: 'easeOut' },
     },
   };
 
   const features = [
     {
-      icon: Shield,
-      title: 'Secure & Verified',
-      description: 'All workers and employers are verified with OTP security',
-      gradient: 'from-blue-400 to-blue-600',
     },
     {
-      icon: TrendingUp,
-      title: 'Fast Growth',
-      description: 'Connect with opportunities in minutes, not weeks',
-      gradient: 'from-green-400 to-green-600',
     },
     {
-      icon: Users,
-      title: 'Community Driven',
-      description: 'Join thousands of farmers and workers already connected',
-      gradient: 'from-purple-400 to-purple-600',
     },
     {
-      icon: Zap,
-      title: 'Real-time Updates',
-      description: 'Get instant notifications for new opportunities',
-      gradient: 'from-yellow-400 to-orange-600',
     },
   ];
 
@@ -68,25 +47,10 @@ const HomePage = () => {
 
   const jobs = [
     {
-      title: 'Harvest Supervisor',
-      company: 'Green Valley Farms',
-      location: 'Punjab',
-      salary: '₹15,000 - ₹20,000/month',
-      type: 'Full-time',
     },
     {
-      title: 'Tractor Operator',
-      company: 'Midwest Agriculture',
-      location: 'Haryana',
-      salary: '₹12,000 - ₹18,000/month',
-      type: 'Seasonal',
     },
     {
-      title: 'Crop Manager',
-      company: 'Prairie Harvest',
-      location: 'Rajasthan',
-      salary: '₹18,000 - ₹25,000/month',
-      type: 'Full-time',
     },
   ];
 
@@ -99,16 +63,12 @@ const HomePage = () => {
           <motion.div
             className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-green-500 to-blue-500 rounded-full opacity-20 blur-3xl"
             animate={{
-              y: [0, 20, 0],
-              x: [0, 10, 0],
             }}
             transition={{ duration: 8, repeat: Infinity }}
           />
           <motion.div
             className="absolute -bottom-32 -left-32 w-96 h-96 bg-gradient-to-tr from-amber-500 to-red-500 rounded-full opacity-15 blur-3xl"
             animate={{
-              y: [0, -20, 0],
-              x: [0, -10, 0],
             }}
             transition={{ duration: 10, repeat: Infinity }}
           />
