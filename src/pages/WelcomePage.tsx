@@ -1,34 +1,36 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  Sprout,
-  ShieldCheck,
-  Star,
-  Users,
-  ArrowRight,
-  Tractor,
-  Briefcase,
-  Award,
-  TrendingUp,
-  MapPin,
-  Clock,
-  HelpCircle,
-  Mail,
-  Phone,
-  Check,
-  Search,
-  ChevronDown,
+import { 
+  Sprout, 
+  ShieldCheck, 
+  Star, 
+  Users, 
+  ArrowRight, 
+  Tractor, 
+  Briefcase, 
+  Award, 
+  TrendingUp, 
+  MapPin, 
+  Clock, 
+  HelpCircle, 
+  BookOpen, 
+  Mail, 
+  Phone, 
+  Check, 
+  Search, 
+  ChevronDown, 
   ChevronUp,
+  UserCheck,
   ChevronLeft,
   ChevronRight
 } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
-import { useAuth } from '../hooks/useAuth';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 import { useToast } from '../components/common/Toast';
 
-export default function HomePage() {
+export default function WelcomePage() {
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuth();
   const { t, language } = useLanguage();
   const toast = useToast();
 
@@ -54,7 +56,7 @@ export default function HomePage() {
     {
       name: 'Ramesh Singh',
       role: language === 'en' ? 'Wheat Farmer, Punjab' : 'गेहूं किसान, पंजाब',
-      text: language === 'en'
+      text: language === 'en' 
         ? "AgriConnect helped me hire 12 harvester operators in under 24 hours. The direct OTP verification gives me peace of mind."
         : "एग्रीकनेक्ट ने मुझे २४ घंटे से भी कम समय में १२ हार्वेस्टर ऑपरेटरों को काम पर रखने में मदद की। सीधी ओटीपी सत्यापन से मुझे मानसिक शांति मिलती है।",
       rating: 5
@@ -76,6 +78,12 @@ export default function HomePage() {
       rating: 5
     }
   ];
+
+  const sampleJobs = [
+    { title: 'Wheat Harvester Operator', location: 'Sangrur, Punjab', pay: '₹800/day', duration: '5 Days' },
+    { title: 'Organic Composting Specialist', location: 'Nashik, MH', pay: '₹650/day', duration: '3 Days' },
+  ];
+
 
   const handleContactSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -112,75 +120,133 @@ export default function HomePage() {
     setTestimonialIdx((prev) => (prev - 1 + testimonials.length) % testimonials.length);
   };
 
-  const sampleJobs = [
-    { title: 'Wheat Harvester Operator', location: 'Sangrur, Punjab', pay: '₹800/day', duration: '5 Days' },
-    { title: 'Organic Composting Specialist', location: 'Nashik, MH', pay: '₹650/day', duration: '3 Days' },
-    { title: 'Drip Irrigation Specialist', location: 'Guntur, AP', pay: '₹700/day', duration: '7 Days' },
-  ];
-
   return (
-    <div className="bg-background text-foreground transition-colors duration-200">
+    <div className="min-h-screen bg-background text-foreground transition-colors duration-200 flex flex-col">
+      
+      {/* SECTION 1 — NAVIGATION BAR */}
+      <Header />
 
       {/* Decorative Accents */}
       <div className="absolute top-16 right-0 w-96 h-96 bg-primary/5 rounded-full filter blur-3xl pointer-events-none z-0" />
+      <div className="absolute top-2/3 left-0 w-80 h-80 bg-secondary/5 rounded-full filter blur-3xl pointer-events-none z-0" />
 
-      {/* HERO SECTION */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-[#1b4332] to-[#2d6a4f] dark:from-[#112d22] dark:to-[#173a2b] text-white pt-20 pb-28 px-4 sm:px-6 lg:px-8">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(255,255,255,0.05),transparent)] pointer-events-none" />
+      {/* SECTION 2 — HERO SECTION */}
+      <section className="relative pt-12 pb-20 md:pt-20 md:pb-28">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            {/* Left Hero Details */}
+            <div className="lg:col-span-7 text-left space-y-6">
+              <div className="inline-flex items-center space-x-2 bg-primary/10 border border-primary/20 text-primary px-4 py-1.5 rounded-full text-xs font-bold tracking-wide">
+                <Tractor size={14} />
+                <span>{t('heroTag')}</span>
+              </div>
+              
+              <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-foreground leading-[1.1]">
+                {t('heroTitle1')}<br />
+                <span className="bg-gradient-to-r from-primary to-[#2d6a4f] bg-clip-text text-transparent">
+                  {t('heroTitle2')}
+                </span>
+              </h1>
+              
+              <p className="text-lg text-muted-foreground max-w-xl leading-relaxed">
+                {t('heroSubtitle')}
+              </p>
 
-        <div className="max-w-7xl mx-auto text-center space-y-6 relative z-10">
-          <div className="inline-flex items-center space-x-2 bg-white/10 px-4 py-1.5 rounded-full text-xs font-bold tracking-wide">
-            <Sprout size={14} className="text-[#a3b18a]" />
-            <span>{t('heroTag')}</span>
-          </div>
+              <div className="flex flex-wrap gap-4 pt-2">
+                <button
+                  onClick={() => navigate('/register?role=company')}
+                  className="px-6 py-3.5 bg-[#1b4332] dark:bg-primary hover:bg-[#2d6a4f] text-white font-bold rounded-xl transition shadow-md shadow-primary/20 hover:scale-[1.01]"
+                >
+                  {t('findWorkers')}
+                </button>
+                <button
+                  onClick={() => navigate('/register?role=worker')}
+                  className="px-6 py-3.5 bg-primary dark:bg-muted text-white dark:text-foreground hover:bg-opacity-95 font-bold rounded-xl transition shadow-md hover:scale-[1.01]"
+                >
+                  {t('findJobs')}
+                </button>
+              </div>
 
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight max-w-4xl mx-auto leading-[1.15]">
-            {t('heroTitle1')} {t('heroTitle2')}
-          </h1>
+              {/* Stats Counters */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-8 border-t border-border">
+                <div>
+                  <h3 className="text-3xl font-extrabold text-foreground">50,000+</h3>
+                  <p className="text-xs text-muted-foreground font-semibold mt-1">{t('statFarmers')}</p>
+                </div>
+                <div>
+                  <h3 className="text-3xl font-extrabold text-[#1b4332] dark:text-primary">120,000+</h3>
+                  <p className="text-xs text-muted-foreground font-semibold mt-1">{t('statWorkers')}</p>
+                </div>
+                <div>
+                  <h3 className="text-3xl font-extrabold text-foreground">15,000+</h3>
+                  <p className="text-xs text-muted-foreground font-semibold mt-1">{t('statJobs')}</p>
+                </div>
+                <div>
+                  <h3 className="text-3xl font-extrabold text-foreground">95%</h3>
+                  <p className="text-xs text-muted-foreground font-semibold mt-1">{t('statSuccess')}</p>
+                </div>
+              </div>
+            </div>
 
-          <p className="text-[#a3b18a] text-lg sm:text-xl max-w-2xl mx-auto leading-relaxed">
-            {t('heroSubtitle')}
-          </p>
+            {/* Right Graphic Preview and Floating Badges */}
+            <div className="lg:col-span-5 relative flex justify-center">
+              <div className="w-full max-w-sm bg-white dark:bg-card rounded-3xl border border-border shadow-2xl p-6 relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-24 h-24 bg-primary/10 rounded-bl-full pointer-events-none" />
+                
+                <div className="flex items-center space-x-3 mb-6">
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold text-lg">
+                    🌾
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-foreground text-sm">{t('activeJobs')}</h4>
+                    <p className="text-xs text-muted-foreground">{t('nearbyJobs')}</p>
+                  </div>
+                </div>
 
-          <div className="flex justify-center gap-4 pt-4">
-            <button
-              onClick={() => navigate('/jobs')}
-              className="inline-flex items-center justify-center px-6 py-3.5 bg-primary hover:bg-opacity-90 text-white font-bold rounded-xl transition duration-150 shadow-lg shadow-primary/20 hover:scale-[1.01]"
-            >
-              {t('findJobs')} <ArrowRight className="ml-2 h-5 w-5" />
-            </button>
-            {!isAuthenticated && (
-              <button
-                onClick={() => navigate('/register')}
-                className="inline-flex items-center justify-center px-6 py-3.5 border border-white/20 hover:bg-white/10 text-white font-bold rounded-xl transition hover:scale-[1.01]"
-              >
-                {t('getStarted')}
-              </button>
-            )}
+                <div className="space-y-3.5 mb-6">
+                  {sampleJobs.map((job, idx) => (
+                    <div key={idx} className="p-4 bg-[#f8faf9] dark:bg-muted/20 rounded-2xl border border-border hover:border-primary/40 transition text-left">
+                      <div className="flex justify-between items-start">
+                        <h5 className="font-bold text-foreground text-sm">{job.title}</h5>
+                        <span className="text-xs bg-primary/10 text-primary font-bold px-2 py-0.5 rounded-full">{job.pay}</span>
+                      </div>
+                      <div className="flex space-x-3.5 mt-2.5 text-xs text-muted-foreground">
+                        <span className="flex items-center"><MapPin size={12} className="mr-1" /> {job.location}</span>
+                        <span className="flex items-center"><Clock size={12} className="mr-1" /> {job.duration}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="p-4 bg-primary/5 rounded-2xl border border-primary/20 flex items-center justify-between text-left">
+                  <div>
+                    <span className="text-xs font-bold text-primary block">{t('verifiedWorker')}</span>
+                    <span className="font-extrabold text-sm text-foreground">Rajesh Sharma</span>
+                  </div>
+                  <div className="flex items-center bg-white dark:bg-card px-2.5 py-1 rounded-xl shadow-sm text-xs font-bold text-amber-500 border border-border">
+                    <Star size={12} fill="currentColor" className="mr-1 text-amber-500" /> 4.9
+                  </div>
+                </div>
+              </div>
+
+              {/* Floating badges for startup aesthetic */}
+              <div className="absolute -top-4 -left-4 bg-white dark:bg-card border border-border px-3 py-1.5 rounded-xl shadow-lg flex items-center space-x-2 animate-bounce duration-1000">
+                <span className="text-green-500">✓</span>
+                <span className="text-xs font-bold text-foreground">Worker Available</span>
+              </div>
+              <div className="absolute bottom-1/3 -right-4 bg-white dark:bg-card border border-border px-3 py-1.5 rounded-xl shadow-lg flex items-center space-x-2">
+                <span className="text-primary">★</span>
+                <span className="text-xs font-bold text-foreground">Verified Worker</span>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
 
-      {/* STATISTICS OVERVIEW */}
-      <section className="relative -mt-10 max-w-5xl mx-auto px-4 z-20">
-        <div className="bg-white dark:bg-card rounded-2xl border border-border shadow-xl grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-border">
-          <div className="p-8 text-center">
-            <div className="text-4xl font-extrabold text-foreground mb-1.5">50,000+</div>
-            <p className="text-sm text-muted-foreground font-semibold">{t('statFarmers')}</p>
-          </div>
-          <div className="p-8 text-center">
-            <div className="text-4xl font-extrabold text-[#1b4332] dark:text-primary mb-1.5">120,000+</div>
-            <p className="text-sm text-muted-foreground font-semibold">{t('statWorkers')}</p>
-          </div>
-          <div className="p-8 text-center">
-            <div className="text-4xl font-extrabold text-foreground mb-1.5">15,000+</div>
-            <p className="text-sm text-muted-foreground font-semibold">{t('statJobs')}</p>
-          </div>
-        </div>
-      </section>
-
-      {/* TRUST SECTION */}
-      <section className="py-12 bg-white dark:bg-card border-b border-border mt-12 transition-colors duration-200">
+      {/* SECTION 3 — TRUST SECTION */}
+      <section className="py-12 bg-white dark:bg-card border-y border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-xs font-extrabold uppercase tracking-widest text-muted-foreground mb-6">
             {t('trustTitle')}
@@ -206,14 +272,14 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ABOUT AGRICONNECT */}
+      {/* SECTION 4 — ABOUT AGRICONNECT */}
       <section id="about" className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
           <span className="text-xs font-extrabold tracking-widest text-primary uppercase block">{t('aboutTitle')}</span>
           <h2 className="text-3xl font-extrabold text-foreground sm:text-4xl tracking-tight">
             {t('aboutSubtitle')}
           </h2>
-
+          
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-10 text-left max-w-5xl mx-auto">
             <div className="p-6.5 bg-white dark:bg-card rounded-2xl border border-border shadow-sm space-y-3">
               <h3 className="font-bold text-lg text-primary flex items-center">
@@ -243,7 +309,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* FEATURES GRID */}
+      {/* SECTION 5 — FEATURES */}
       <section id="features" className="py-20 bg-white dark:bg-card border-y border-border transition-colors duration-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
           <span className="text-xs font-extrabold tracking-widest text-primary uppercase block">{t('featuresTitle')}</span>
@@ -284,7 +350,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* HOW IT WORKS */}
+      {/* SECTION 6 — HOW IT WORKS */}
       <section id="workflow" className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
           <span className="text-xs font-extrabold tracking-widest text-[#1b4332] dark:text-primary uppercase block">{t('workflowTag')}</span>
@@ -293,6 +359,7 @@ export default function HomePage() {
           </h2>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 pt-12 text-left">
+            {/* Farmer Workflow */}
             <div className="bg-white dark:bg-card p-8 rounded-2xl border border-border shadow-sm space-y-6">
               <h3 className="font-extrabold text-lg text-primary flex items-center pb-2 border-b border-border">
                 🚜 {t('farmerFlow')}
@@ -321,6 +388,7 @@ export default function HomePage() {
               </div>
             </div>
 
+            {/* Worker Workflow */}
             <div className="bg-white dark:bg-card p-8 rounded-2xl border border-border shadow-sm space-y-6">
               <h3 className="font-extrabold text-lg text-primary flex items-center pb-2 border-b border-border">
                 🌾 {t('workerFlow')}
@@ -352,7 +420,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* JOB CATEGORIES */}
+      {/* SECTION 7 — JOB CATEGORIES */}
       <section id="categories" className="py-20 bg-white dark:bg-card border-y border-border transition-colors duration-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
           <span className="text-xs font-extrabold tracking-widest text-primary uppercase block">{t('catTitle')}</span>
@@ -364,42 +432,42 @@ export default function HomePage() {
             <div className="p-5 bg-background border border-border rounded-2xl hover:border-primary transition cursor-pointer">
               <span className="text-3xl">🌾</span>
               <h4 className="font-bold text-sm text-foreground mt-2">{t('catHarvest')}</h4>
-              <span className="text-xs text-muted-foreground font-medium">1,240 Jobs</span>
+              <span className="text-xs text-muted-foreground">1,240 Jobs</span>
             </div>
             <div className="p-5 bg-background border border-border rounded-2xl hover:border-primary transition cursor-pointer">
               <span className="text-3xl">🌱</span>
               <h4 className="font-bold text-sm text-foreground mt-2">{t('catPlant')}</h4>
-              <span className="text-xs text-muted-foreground font-medium">850 Jobs</span>
+              <span className="text-xs text-muted-foreground">850 Jobs</span>
             </div>
             <div className="p-5 bg-background border border-border rounded-2xl hover:border-primary transition cursor-pointer">
               <span className="text-3xl">💧</span>
               <h4 className="font-bold text-sm text-foreground mt-2">{t('catIrrig')}</h4>
-              <span className="text-xs text-muted-foreground font-medium">420 Jobs</span>
+              <span className="text-xs text-muted-foreground">420 Jobs</span>
             </div>
             <div className="p-5 bg-background border border-border rounded-2xl hover:border-primary transition cursor-pointer">
               <span className="text-3xl">💨</span>
               <h4 className="font-bold text-sm text-foreground mt-2">{t('catSpray')}</h4>
-              <span className="text-xs text-muted-foreground font-medium">610 Jobs</span>
+              <span className="text-xs text-muted-foreground">610 Jobs</span>
             </div>
             <div className="p-5 bg-background border border-border rounded-2xl hover:border-primary transition cursor-pointer">
               <span className="text-3xl">🚜</span>
               <h4 className="font-bold text-sm text-foreground mt-2">{t('catTractor')}</h4>
-              <span className="text-xs text-muted-foreground font-medium">1,050 Jobs</span>
+              <span className="text-xs text-muted-foreground">1,050 Jobs</span>
             </div>
             <div className="p-5 bg-background border border-border rounded-2xl hover:border-primary transition cursor-pointer">
               <span className="text-3xl">🍎</span>
               <h4 className="font-bold text-sm text-foreground mt-2">{t('catPick')}</h4>
-              <span className="text-xs text-muted-foreground font-medium">300 Jobs</span>
+              <span className="text-xs text-muted-foreground">300 Jobs</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* SEARCH SECTION */}
+      {/* SECTION 8 — SEARCH SECTION */}
       <section id="search" className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
           <span className="text-xs font-extrabold tracking-widest text-primary uppercase block">{t('searchHeader')}</span>
-
+          
           <form onSubmit={handleSearchSubmit} className="max-w-4xl mx-auto bg-white dark:bg-card border border-border shadow-xl rounded-3xl p-6.5 grid grid-cols-1 md:grid-cols-4 gap-4 items-end text-left">
             <div>
               <label className="block text-xs font-bold text-muted-foreground uppercase mb-1">{t('searchLabelLoc')}</label>
@@ -450,7 +518,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* LIVE JOBS SECTION */}
+      {/* SECTION 9 — LIVE JOBS */}
       <section id="jobs" className="py-20 bg-white dark:bg-card border-y border-border transition-colors duration-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
           <span className="text-xs font-extrabold tracking-widest text-primary uppercase block">{t('liveJobsTitle')}</span>
@@ -459,34 +527,76 @@ export default function HomePage() {
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-10 text-left">
-            {sampleJobs.map((job, idx) => (
-              <div key={idx} className="p-5.5 bg-background rounded-2xl border border-border shadow-sm flex flex-col justify-between">
-                <div>
-                  <div className="flex justify-between items-start mb-2">
-                    <h4 className="font-extrabold text-foreground text-sm.5">{job.title}</h4>
-                    <span className="text-xs bg-primary/10 text-primary font-bold px-2 py-0.5 rounded-full">{job.pay}</span>
-                  </div>
-                  <p className="text-xs text-muted-foreground">Location: {job.location}</p>
-                  <div className="flex items-center space-x-3.5 mt-4.5 text-xs text-muted-foreground">
-                    <span className="flex items-center"><MapPin size={12} className="mr-1" /> {job.location}</span>
-                    <span className="flex items-center"><Clock size={12} className="mr-1" /> {job.duration}</span>
-                  </div>
+            <div className="p-5.5 bg-background rounded-2xl border border-border shadow-sm flex flex-col justify-between">
+              <div>
+                <div className="flex justify-between items-start mb-2">
+                  <h4 className="font-extrabold text-foreground text-sm.5">Cotton Picker Crew</h4>
+                  <span className="text-xs bg-primary/10 text-primary font-bold px-2 py-0.5 rounded-full">₹600/Day</span>
                 </div>
-                <div className="flex gap-2 pt-6">
-                  <button onClick={() => navigate('/jobs')} className="flex-1 bg-primary text-white text-xs font-bold py-2 rounded-lg hover:opacity-95 transition">
-                    {t('btnApply')}
-                  </button>
-                  <button onClick={() => navigate('/jobs')} className="px-3 border border-border text-muted-foreground text-xs font-bold rounded-lg hover:bg-muted transition">
-                    {t('btnDetails')}
-                  </button>
+                <p className="text-xs text-muted-foreground">Employer: Harsh Vardhan Farms</p>
+                <div className="flex items-center space-x-3.5 mt-4.5 text-xs text-muted-foreground">
+                  <span className="flex items-center"><MapPin size={12} className="mr-1" /> Bathinda, Punjab</span>
+                  <span className="flex items-center"><Clock size={12} className="mr-1" /> 10 Days</span>
                 </div>
               </div>
-            ))}
+              <div className="flex gap-2 pt-6">
+                <button onClick={() => navigate('/login')} className="flex-1 bg-primary text-white text-xs font-bold py-2 rounded-lg hover:opacity-95 transition">
+                  {t('btnApply')}
+                </button>
+                <button onClick={() => navigate('/login')} className="px-3 border border-border text-muted-foreground text-xs font-bold rounded-lg hover:bg-muted transition">
+                  {t('btnDetails')}
+                </button>
+              </div>
+            </div>
+
+            <div className="p-5.5 bg-background rounded-2xl border border-border shadow-sm flex flex-col justify-between">
+              <div>
+                <div className="flex justify-between items-start mb-2">
+                  <h4 className="font-extrabold text-foreground text-sm.5">Tractor Operator</h4>
+                  <span className="text-xs bg-primary/10 text-primary font-bold px-2 py-0.5 rounded-full">₹850/Day</span>
+                </div>
+                <p className="text-xs text-muted-foreground">Employer: Balaji Agro Foods</p>
+                <div className="flex items-center space-x-3.5 mt-4.5 text-xs text-muted-foreground">
+                  <span className="flex items-center"><MapPin size={12} className="mr-1" /> Nashik, MH</span>
+                  <span className="flex items-center"><Clock size={12} className="mr-1" /> 4 Days</span>
+                </div>
+              </div>
+              <div className="flex gap-2 pt-6">
+                <button onClick={() => navigate('/login')} className="flex-1 bg-primary text-white text-xs font-bold py-2 rounded-lg hover:opacity-95 transition">
+                  {t('btnApply')}
+                </button>
+                <button onClick={() => navigate('/login')} className="px-3 border border-border text-muted-foreground text-xs font-bold rounded-lg hover:bg-muted transition">
+                  {t('btnDetails')}
+                </button>
+              </div>
+            </div>
+
+            <div className="p-5.5 bg-background rounded-2xl border border-border shadow-sm flex flex-col justify-between">
+              <div>
+                <div className="flex justify-between items-start mb-2">
+                  <h4 className="font-extrabold text-foreground text-sm.5">Orchard Pruning Worker</h4>
+                  <span className="text-xs bg-primary/10 text-primary font-bold px-2 py-0.5 rounded-full">₹700/Day</span>
+                </div>
+                <p className="text-xs text-muted-foreground">Employer: Golden Apples Agribusiness</p>
+                <div className="flex items-center space-x-3.5 mt-4.5 text-xs text-muted-foreground">
+                  <span className="flex items-center"><MapPin size={12} className="mr-1" /> Shimla, HP</span>
+                  <span className="flex items-center"><Clock size={12} className="mr-1" /> 14 Days</span>
+                </div>
+              </div>
+              <div className="flex gap-2 pt-6">
+                <button onClick={() => navigate('/login')} className="flex-1 bg-primary text-white text-xs font-bold py-2 rounded-lg hover:opacity-95 transition">
+                  {t('btnApply')}
+                </button>
+                <button onClick={() => navigate('/login')} className="px-3 border border-border text-muted-foreground text-xs font-bold rounded-lg hover:bg-muted transition">
+                  {t('btnDetails')}
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* TOP WORKERS */}
+      {/* SECTION 10 — TOP WORKERS */}
       <section id="workers" className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
           <span className="text-xs font-extrabold tracking-widest text-primary uppercase block">{t('topWorkersTitle')}</span>
@@ -505,7 +615,7 @@ export default function HomePage() {
                   <p className="text-xs text-muted-foreground">Wheat Harvesting, Seeding</p>
                 </div>
               </div>
-              <div className="grid grid-cols-3 gap-2 py-2 border-y border-border text-center text-xs text-muted-foreground font-semibold">
+              <div className="grid grid-cols-3 gap-2 py-2 border-y border-border text-center text-xs text-muted-foreground">
                 <div>
                   <span className="block font-bold text-foreground">8 Yrs</span>
                   <span>{t('expYears')}</span>
@@ -519,7 +629,7 @@ export default function HomePage() {
                   <span>{t('jobsCompleted')}</span>
                 </div>
               </div>
-              <button onClick={() => navigate('/workers')} className="w-full bg-[#1b4332] dark:bg-primary text-white text-xs font-bold py-2 rounded-lg hover:bg-opacity-95 transition">
+              <button onClick={() => navigate('/login')} className="w-full bg-[#1b4332] dark:bg-primary text-white text-xs font-bold py-2 rounded-lg hover:bg-opacity-95 transition">
                 {t('btnViewProfile')}
               </button>
             </div>
@@ -534,7 +644,7 @@ export default function HomePage() {
                   <p className="text-xs text-muted-foreground">Cotton Harvester, Pesticide</p>
                 </div>
               </div>
-              <div className="grid grid-cols-3 gap-2 py-2 border-y border-border text-center text-xs text-muted-foreground font-semibold">
+              <div className="grid grid-cols-3 gap-2 py-2 border-y border-border text-center text-xs text-muted-foreground">
                 <div>
                   <span className="block font-bold text-foreground">5 Yrs</span>
                   <span>{t('expYears')}</span>
@@ -548,7 +658,7 @@ export default function HomePage() {
                   <span>{t('jobsCompleted')}</span>
                 </div>
               </div>
-              <button onClick={() => navigate('/workers')} className="w-full bg-[#1b4332] dark:bg-primary text-white text-xs font-bold py-2 rounded-lg hover:bg-opacity-95 transition">
+              <button onClick={() => navigate('/login')} className="w-full bg-[#1b4332] dark:bg-primary text-white text-xs font-bold py-2 rounded-lg hover:bg-opacity-95 transition">
                 {t('btnViewProfile')}
               </button>
             </div>
@@ -563,7 +673,7 @@ export default function HomePage() {
                   <p className="text-xs text-muted-foreground">Tractor driving, Irrigation</p>
                 </div>
               </div>
-              <div className="grid grid-cols-3 gap-2 py-2 border-y border-border text-center text-xs text-muted-foreground font-semibold">
+              <div className="grid grid-cols-3 gap-2 py-2 border-y border-border text-center text-xs text-muted-foreground">
                 <div>
                   <span className="block font-bold text-foreground">10 Yrs</span>
                   <span>{t('expYears')}</span>
@@ -577,7 +687,7 @@ export default function HomePage() {
                   <span>{t('jobsCompleted')}</span>
                 </div>
               </div>
-              <button onClick={() => navigate('/workers')} className="w-full bg-[#1b4332] dark:bg-primary text-white text-xs font-bold py-2 rounded-lg hover:bg-opacity-95 transition">
+              <button onClick={() => navigate('/login')} className="w-full bg-[#1b4332] dark:bg-primary text-white text-xs font-bold py-2 rounded-lg hover:bg-opacity-95 transition">
                 {t('btnViewProfile')}
               </button>
             </div>
@@ -585,10 +695,13 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* SUCCESS STORIES */}
+      {/* SECTION 11 — SUCCESS STORIES */}
       <section id="testimonials" className="py-20 bg-white dark:bg-card border-y border-border transition-colors duration-200">
         <div className="max-w-4xl mx-auto px-4 text-center space-y-6 relative">
           <span className="text-xs font-extrabold tracking-widest text-primary uppercase block">{t('storiesTitle')}</span>
+          <h2 className="text-3xl font-extrabold text-foreground sm:text-4xl tracking-tight">
+            {t('storiesSubtitle')}
+          </h2>
 
           <div className="p-8 bg-[#f8faf9] dark:bg-muted/10 rounded-3xl border border-border mt-8 space-y-4 text-center">
             <div className="flex justify-center space-x-1 text-amber-500">
@@ -616,12 +729,12 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* PLATFORM ACHIEVEMENT STATISTICS */}
+      {/* SECTION 12 — PLATFORM STATISTICS */}
       <section id="stats" className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
           <span className="text-xs font-extrabold tracking-widest text-primary uppercase block">{t('statsHeader')}</span>
-
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 pt-10">
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-10">
             <div className="p-6 bg-white dark:bg-card rounded-2xl border border-border">
               <h4 className="text-4xl font-extrabold text-foreground">200K+</h4>
               <p className="text-xs text-muted-foreground font-semibold mt-2">{t('regUsers')}</p>
@@ -642,10 +755,12 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* MOBILE APP */}
+      {/* SECTION 13 — MOBILE APP */}
       <section id="mobile-app" className="py-20 bg-white dark:bg-card border-y border-border transition-colors duration-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            {/* Left Texts */}
             <div className="lg:col-span-7 text-left space-y-5">
               <h2 className="text-3xl sm:text-4xl font-extrabold text-[#1b4332] dark:text-primary">
                 {t('appTitle')}
@@ -663,6 +778,7 @@ export default function HomePage() {
               </div>
             </div>
 
+            {/* Right Phone preview placeholder */}
             <div className="lg:col-span-5 flex justify-center">
               <div className="w-56 h-[400px] border-[8px] border-[#1b4332] rounded-[36px] bg-[#f8faf9] dark:bg-background relative shadow-2xl p-4 flex flex-col justify-between">
                 <div className="absolute top-2 left-1/2 -translate-x-1/2 w-20 h-4 bg-[#1b4332] rounded-full" />
@@ -671,22 +787,23 @@ export default function HomePage() {
                   <h5 className="font-extrabold text-sm text-foreground">AgriConnect App</h5>
                   <p className="text-[10px] text-muted-foreground mt-1">Live hiring matched</p>
                 </div>
-
+                
                 <div className="w-full p-2 bg-white dark:bg-card border border-border rounded-xl shadow-md text-[10px] text-left">
                   <span className="font-bold block text-primary">★ Payment Confirmed</span>
                   <span>Amount: ₹2,400 to Rajesh S.</span>
                 </div>
-
+                
                 <div className="h-6.5 w-full bg-[#1b4332] rounded-xl flex items-center justify-center text-white text-[10px] font-bold">
                   AgriConnect Mobile Preview
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       </section>
 
-      {/* FAQ SECTION */}
+      {/* SECTION 14 — FAQ Accordion */}
       <section id="faq" className="py-20">
         <div className="max-w-3xl mx-auto px-4 text-center space-y-4">
           <span className="text-xs font-extrabold tracking-widest text-primary uppercase block">{t('faqTitle')}</span>
@@ -695,6 +812,7 @@ export default function HomePage() {
           </h2>
 
           <div className="pt-10 text-left space-y-3.5">
+            {/* FAQ 1 */}
             <div className="bg-white dark:bg-card border border-border rounded-2xl overflow-hidden transition shadow-sm">
               <button
                 onClick={() => setActiveFaq(activeFaq === 1 ? null : 1)}
@@ -710,6 +828,7 @@ export default function HomePage() {
               )}
             </div>
 
+            {/* FAQ 2 */}
             <div className="bg-white dark:bg-card border border-border rounded-2xl overflow-hidden transition shadow-sm">
               <button
                 onClick={() => setActiveFaq(activeFaq === 2 ? null : 2)}
@@ -725,6 +844,7 @@ export default function HomePage() {
               )}
             </div>
 
+            {/* FAQ 3 */}
             <div className="bg-white dark:bg-card border border-border rounded-2xl overflow-hidden transition shadow-sm">
               <button
                 onClick={() => setActiveFaq(activeFaq === 3 ? null : 3)}
@@ -743,7 +863,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* BLOGS */}
+      {/* SECTION 15 — BLOGS */}
       <section id="blogs" className="py-20 bg-white dark:bg-card border-y border-border transition-colors duration-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
           <span className="text-xs font-extrabold tracking-widest text-primary uppercase block">{t('blogsTitle')}</span>
@@ -788,7 +908,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* NEWSLETTER */}
+      {/* SECTION 16 — NEWSLETTER */}
       <section id="newsletter" className="py-20">
         <div className="max-w-3xl mx-auto px-4 text-center space-y-4">
           <h2 className="text-3xl font-extrabold text-foreground tracking-tight">
@@ -816,11 +936,12 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CONTACT */}
+      {/* SECTION 17 — CONTACT */}
       <section id="contact" className="py-20 bg-white dark:bg-card border-t border-border transition-colors duration-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-
+            
+            {/* Left Details */}
             <div className="lg:col-span-5 text-left space-y-6">
               <h2 className="text-3xl font-extrabold text-foreground tracking-tight sm:text-4xl">
                 {t('contactTitle')}
@@ -828,7 +949,7 @@ export default function HomePage() {
               <p className="text-muted-foreground text-sm.5 leading-relaxed">
                 {t('contactSubtitle')}
               </p>
-
+              
               <div className="space-y-4 text-sm text-muted-foreground">
                 <div className="flex items-start space-x-3">
                   <MapPin className="text-primary mt-1 flex-shrink-0" size={18} />
@@ -844,14 +965,16 @@ export default function HomePage() {
                 </div>
               </div>
 
+              {/* HQ Map placeholder */}
               <div className="h-44 w-full bg-muted dark:bg-background border border-border rounded-2xl flex items-center justify-center text-xs text-muted-foreground font-semibold">
                 📍 HQ Map Coordinates (Noida, Uttar Pradesh)
               </div>
             </div>
 
+            {/* Right Contact Form */}
             <div className="lg:col-span-7 bg-background p-8 rounded-3xl border border-border shadow-sm text-left">
               <h3 className="font-extrabold text-lg text-foreground mb-6">{t('contactForm')}</h3>
-
+              
               <form onSubmit={handleContactSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-1.5">
@@ -915,35 +1038,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* CTA FOR GUEST USERS */}
-      {!isAuthenticated && (
-        <section className="pb-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="bg-[#1b4332] dark:bg-[#112d22] rounded-3xl p-12 text-white text-center space-y-6 relative overflow-hidden shadow-xl">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full filter blur-3xl pointer-events-none" />
-
-            <h2 className="text-3xl font-extrabold sm:text-4xl max-w-xl mx-auto">
-              {t('ctaHeader')}
-            </h2>
-            <p className="text-[#a3b18a] max-w-md mx-auto text-sm.5 leading-relaxed">
-              {t('ctaDesc')}
-            </p>
-            <div className="flex justify-center gap-4 pt-2">
-              <button
-                onClick={() => navigate('/register?role=worker')}
-                className="px-6 py-3.5 bg-[#e8f5ee] hover:bg-white text-[#1b4332] font-bold rounded-xl transition hover:scale-[1.01]"
-              >
-                {t('imWorker')}
-              </button>
-              <button
-                onClick={() => navigate('/register?role=company')}
-                className="px-6 py-3.5 border border-white/20 hover:bg-white/10 text-white font-bold rounded-xl transition hover:scale-[1.01]"
-              >
-                {t('imEmployer')}
-              </button>
-            </div>
-          </div>
-        </section>
-      )}
+      {/* SECTION 18 — FOOTER */}
+      <Footer />
+      
     </div>
   );
 }

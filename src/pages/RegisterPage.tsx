@@ -1,174 +1,193 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import { useToast } from '../components/common/Toast';
+import Input from '../components/common/Input';
+import PasswordField from '../components/common/PasswordField';
+import PrimaryButton from '../components/common/PrimaryButton';
+import { Mail, User, Phone, Sprout, Tractor, Briefcase } from 'lucide-react';
 
-type UserRole = 'worker' | 'company';
+type RegisterRole = 'worker' | 'company';
 
 export default function RegisterPage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const initialRole = (searchParams.get('role') as UserRole) || 'worker';
-  const { register, isLoading, error: authError } = useAuth();
+  const initialRole = (searchParams.get('role') as RegisterRole) || 'worker';
+  
+  const { register, isLoading } = useAuth();
+  const toast = useToast();
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: '',
     password: '',
     confirmPassword: '',
     role: initialRole,
-    phone: '',
   });
-  const [error, setError] = useState('');
+
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
+    setErrors({});
+    const newErrors: Record<string, string> = {};
 
-    if (!formData.name || !formData.email || !formData.password || !formData.confirmPassword) {
-      setError('Please fill in all required fields');
-      return;
+    if (!formData.name) newErrors.name = 'Full name is required';
+    if (!formData.email) {
+      newErrors.email = 'Email address is required';
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+
+    if (formData.phone && !/^\+?[1-9]\d{1,14}$/.test(formData.phone.replace(/\s+/g, ''))) {
+      newErrors.phone = 'Please enter a valid phone number';
+    }
+
+    if (!formData.password) {
+      newErrors.password = 'Password is required';
+    } else if (formData.password.length < 8) {
+      newErrors.password = 'Password must be at least 8 characters long';
     }
 
     if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
-      return;
+      newErrors.confirmPassword = 'Passwords do not match';
     }
 
-    if (formData.password.length < 6) {
-      setError('Password must be at least 6 characters');
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
       return;
     }
 
     try {
-      await register(formData.name, formData.email, formData.password, formData.role, formData.phone);
-      navigate('/dashboard');
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Registration failed');
+      await register(
+        formData.name,
+        formData.email,
+        formData.password,
+        formData.role,
+        formData.phone
+      );
+      toast.success('Registration details submitted. Please verify OTP.');
+      
+      // Navigate to OTP page, passing email & role in route state
+      navigate('/verify-otp', {
+        state: { email: formData.email, role: formData.role },
+      });
+    } catch (err: any) {
+      toast.error(err.message || 'Registration failed. Try again.');
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary to-secondary flex items-center justify-center p-4">
-      <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-8">
+    <div className="min-h-screen bg-gradient-to-br from-primary to-secondary flex items-center justify-center p-4 py-8">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8 border border-border">
+        
+        {/* Brand details */}
         <div className="text-center mb-8">
+          <div className="mx-auto w-12 h-12 bg-[#e8f0ed] text-primary flex items-center justify-center rounded-full mb-3">
+            <Sprout size={24} />
+          </div>
           <h1 className="text-3xl font-bold text-foreground">Join AgriConnect</h1>
-          <p className="text-muted-foreground mt-2">Create your account in minutes</p>
+          <p className="text-muted-foreground mt-2">Connect, search, and grow today</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {(error || authError) && (
-            <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
-              {error || authError}
-            </div>
-          )}
-
-          {/* Role Selection */}
-          <div>
-            <label className="block text-sm font-medium text-foreground mb-2">I am a:</label>
+        <form onSubmit={handleSubmit} className="space-y-4 text-left">
+          {/* Role Choice Buttons */}
+          <div className="space-y-1.5">
+            <label className="block text-sm font-semibold text-foreground">I want to register as a:</label>
             <div className="grid grid-cols-2 gap-4">
-              <label className="flex items-center p-3 border-2 rounded-lg cursor-pointer" style={{
-                borderColor: formData.role === 'worker' ? 'var(--color-primary)' : 'var(--color-border)',
-                backgroundColor: formData.role === 'worker' ? 'rgba(142, 200, 110, 0.05)' : 'white',
-              }}>
-                <input
-                  type="radio"
-                  name="role"
-                  value="worker"
-                  checked={formData.role === 'worker'}
-                  onChange={(e) => setFormData({ ...formData, role: e.target.value as UserRole })}
-                  className="mr-2"
-                />
-                <span>Worker</span>
-              </label>
-              <label className="flex items-center p-3 border-2 rounded-lg cursor-pointer" style={{
-                borderColor: formData.role === 'company' ? 'var(--color-primary)' : 'var(--color-border)',
-                backgroundColor: formData.role === 'company' ? 'rgba(142, 200, 110, 0.05)' : 'white',
-              }}>
-                <input
-                  type="radio"
-                  name="role"
-                  value="company"
-                  checked={formData.role === 'company'}
-                  onChange={(e) => setFormData({ ...formData, role: e.target.value as UserRole })}
-                  className="mr-2"
-                />
-                <span>Company</span>
-              </label>
+              <button
+                type="button"
+                onClick={() => setFormData({ ...formData, role: 'worker' })}
+                className={`flex flex-col items-center p-4 border-2 rounded-xl transition duration-150 ${
+                  formData.role === 'worker'
+                    ? 'border-primary bg-[#e8f0ed] text-[#1b4332]'
+                    : 'border-border bg-white text-muted-foreground hover:bg-gray-50'
+                }`}
+              >
+                <Briefcase size={22} className="mb-1.5" />
+                <span className="font-semibold text-sm">Farm Worker</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setFormData({ ...formData, role: 'company' })}
+                className={`flex flex-col items-center p-4 border-2 rounded-xl transition duration-150 ${
+                  formData.role === 'company'
+                    ? 'border-primary bg-[#e8f0ed] text-[#1b4332]'
+                    : 'border-border bg-white text-muted-foreground hover:bg-gray-50'
+                }`}
+              >
+                <Tractor size={22} className="mb-1.5" />
+                <span className="font-semibold text-sm">Farm Owner</span>
+              </button>
             </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-foreground mb-2">Full Name</label>
-            <input
-              type="text"
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-              placeholder="John Doe"
-              disabled={isLoading}
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-foreground mb-2">Email</label>
-            <input
-              type="email"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-              placeholder="you@example.com"
-              disabled={isLoading}
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-foreground mb-2">Phone (Optional)</label>
-            <input
-              type="tel"
-              value={formData.phone}
-              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-              className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-              placeholder="+1-555-0000"
-              disabled={isLoading}
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-foreground mb-2">Password</label>
-            <input
-              type="password"
-              value={formData.password}
-              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-              className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-              placeholder="••••••••"
-              disabled={isLoading}
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-foreground mb-2">Confirm Password</label>
-            <input
-              type="password"
-              value={formData.confirmPassword}
-              onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-              className="w-full px-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
-              placeholder="••••••••"
-              disabled={isLoading}
-            />
-          </div>
-
-          <button
-            type="submit"
+          <Input
+            type="text"
+            label="Full Name"
+            placeholder="John Doe"
+            value={formData.name}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            error={errors.name}
             disabled={isLoading}
-            className="w-full bg-primary text-white py-2 rounded-lg font-semibold hover:opacity-90 transition disabled:opacity-50"
-          >
-            {isLoading ? 'Creating Account...' : 'Create Account'}
-          </button>
+            icon={<User size={18} />}
+            required
+          />
+
+          <Input
+            type="email"
+            label="Email Address"
+            placeholder="you@example.com"
+            value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            error={errors.email}
+            disabled={isLoading}
+            icon={<Mail size={18} />}
+            required
+          />
+
+          <Input
+            type="tel"
+            label="Phone Number"
+            placeholder="e.g. +91 9999999999"
+            value={formData.phone}
+            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+            error={errors.phone}
+            disabled={isLoading}
+            icon={<Phone size={18} />}
+          />
+
+          <PasswordField
+            label="Password"
+            placeholder="Min 8 characters"
+            value={formData.password}
+            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+            error={errors.password}
+            disabled={isLoading}
+            required
+          />
+
+          <PasswordField
+            label="Confirm Password"
+            placeholder="••••••••"
+            value={formData.confirmPassword}
+            onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+            error={errors.confirmPassword}
+            disabled={isLoading}
+            required
+          />
+
+          <PrimaryButton type="submit" loading={isLoading}>
+            Submit Registration
+          </PrimaryButton>
         </form>
 
-        <p className="text-center text-muted-foreground mt-6">
+        <p className="text-center text-muted-foreground mt-6 text-sm">
           Already have an account?{' '}
           <Link to="/login" className="text-primary font-semibold hover:underline">
-            Log in
+            Sign In
           </Link>
         </p>
       </div>
