@@ -12,7 +12,8 @@ const translations = {
   admin: { en: 'Admin', hi: 'एडमिन' },
   // Section 2 - Hero
   heroTag: { en: 'Next-Gen Agricultural Network', hi: 'अत्याधुनिक कृषि नेटवर्क' },
-  heroTitle: { en: 'Connecting Farmers with Skilled Agricultural Workers', hi: 'किसानों और कुशल कृषि मजदूरों का सीधा मिलाप' },
+  heroTitle1: { en: 'Cultivate Your', hi: 'तैयार करें अपना' },
+  heroTitle2: { en: 'Workforce.', hi: 'मजबूत कार्यबल।' },
   heroSubtitle: { en: 'Hire trusted farm workers or find agricultural jobs quickly and securely with AgriConnect.', hi: 'एग्रीकनेक्ट के साथ भरोसेमंद कृषि मजदूरों को काम पर रखें या तुरंत और सुरक्षित रूप से कृषि कार्य खोजें।' },
   findWorkers: { en: 'Find Workers', hi: 'मजदूर खोजें' },
   findJobs: { en: 'Find Jobs', hi: 'काम खोजें' },

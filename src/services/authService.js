@@ -66,7 +66,7 @@ async function login(credentials) {
 
   try {
     const response = await axiosInstance.post('/auth/login', credentials);
-    return response.data;
+    return response.data.data;
   } catch (error) {
     const msg = error.response?.data?.message || 'Login failed. Please check your credentials.';
     throw new Error(msg);
@@ -95,7 +95,7 @@ async function register(data) {
 
   try {
     const response = await axiosInstance.post('/auth/register', data);
-    return response.data;
+    return response.data.data;
   } catch (error) {
     const msg = error.response?.data?.message || 'Registration failed. Please try again.';
     throw new Error(msg);
@@ -110,7 +110,7 @@ async function verifyOTP(email, otp) {
           const userDetails = mockPendingUser && mockPendingUser.email === email
             ? mockPendingUser
             : { email, role: 'worker', phone: '', password: 'password', name: 'User' };
-            
+
           const newUser = {
             id: Math.random().toString(36).substr(2, 9),
             email: userDetails.email,
@@ -119,13 +119,13 @@ async function verifyOTP(email, otp) {
             phone: userDetails.phone,
             password: userDetails.password,
           };
-          
+
           mockRegisteredUsers.push(newUser);
           mockPendingUser = null;
-          
+
           const mockToken = `mock-token-${Date.now()}`;
           const mockRefresh = `mock-refresh-${Date.now()}`;
-          
+
           resolve({
             user: {
               id: newUser.id,
@@ -146,7 +146,7 @@ async function verifyOTP(email, otp) {
 
   try {
     const response = await axiosInstance.post('/auth/verify-otp', { email, otp });
-    return response.data;
+    return response.data.data;
   } catch (error) {
     const msg = error.response?.data?.message || 'OTP verification failed. Please try again.';
     throw new Error(msg);
@@ -165,7 +165,7 @@ async function resendOTP(email) {
 
   try {
     const response = await axiosInstance.post('/auth/resend-otp', { email });
-    return response.data;
+    return response.data.data;
   } catch (error) {
     const msg = error.response?.data?.message || 'Failed to resend OTP.';
     throw new Error(msg);
@@ -189,7 +189,7 @@ async function forgotPassword(email) {
 
   try {
     const response = await axiosInstance.post('/auth/forgot-password', { email });
-    return response.data;
+    return response.data.data;
   } catch (error) {
     const msg = error.response?.data?.message || 'Failed to initiate forgot password.';
     throw new Error(msg);
@@ -211,7 +211,7 @@ async function verifyResetOTP(email, otp) {
 
   try {
     const response = await axiosInstance.post('/auth/verify-reset-otp', { email, otp });
-    return response.data;
+    return response.data.data;
   } catch (error) {
     const msg = error.response?.data?.message || 'Failed to verify reset OTP.';
     throw new Error(msg);
@@ -241,7 +241,7 @@ async function resetPassword(email, otp, data) {
       otp,
       password: data.password,
     });
-    return response.data;
+    return response.data.data;
   } catch (error) {
     const msg = error.response?.data?.message || 'Failed to reset password.';
     throw new Error(msg);
@@ -252,7 +252,7 @@ async function getCurrentUser() {
   if (USE_MOCK_API) {
     const token = localStorage.getItem('authToken');
     const userStr = localStorage.getItem('authUser');
-    
+
     if (token) {
       return new Promise((resolve) => {
         setTimeout(() => {
@@ -275,7 +275,7 @@ async function getCurrentUser() {
 
   try {
     const response = await axiosInstance.get('/auth/me');
-    return response.data;
+    return response.data.data;
   } catch (error) {
     return null;
   }
@@ -308,12 +308,12 @@ async function completeProfile(role, profileData) {
           name: 'Demo User',
           role: role,
         };
-        
+
         currentUser.phone = profileData.phone || currentUser.phone;
         currentUser.name = profileData.name || currentUser.name;
-        
+
         localStorage.setItem('authUser', JSON.stringify(currentUser));
-        
+
         resolve({
           message: 'Profile updated',
           user: currentUser,
@@ -325,7 +325,7 @@ async function completeProfile(role, profileData) {
   try {
     const endpoint = role === 'worker' ? '/workers/profile' : '/companies/profile';
     const response = await axiosInstance.post(endpoint, profileData);
-    return response.data;
+    return response.data.data;
   } catch (error) {
     const msg = error.response?.data?.message || 'Failed to update profile info.';
     throw new Error(msg);

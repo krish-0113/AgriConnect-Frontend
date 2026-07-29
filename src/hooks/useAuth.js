@@ -60,8 +60,15 @@ export const useAuth = () => {
         dispatch(setLoading(true));
         dispatch(clearError());
         const response = await authService.verifyOTP(email, otp);
-        dispatch(setTokens({ token: response.token, refreshToken: response.refreshToken }));
+        dispatch(
+          setTokens({
+            token: response.accessToken,
+            refreshToken: response.refreshToken,
+          })
+        );
+
         dispatch(setUser(response.user));
+
         return response.user;
       } catch (err) {
         const message = err instanceof Error ? err.message : 'An error occurred';

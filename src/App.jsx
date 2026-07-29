@@ -34,6 +34,7 @@ const CreateJobWizard = lazy(() => import('./pages/CreateJobWizard'));
 const ReviewsPage = lazy(() => import('./pages/ReviewsPage'));
 const AssignmentDetailsPage = lazy(() => import('./pages/AssignmentDetailsPage'));
 const PoliciesPage = lazy(() => import('./pages/PoliciesPage'));
+const OAuth2RedirectHandler = lazy(() => import('./pages/OAuth2RedirectHandler'));
 
 // Loading component
 const PageLoader = () => (
@@ -62,6 +63,7 @@ function App() {
                 <Route path="/verify-otp" element={<Suspense fallback={<PageLoader />}><OTPVerificationPage /></Suspense>} />
                 <Route path="/forgot-password" element={<Suspense fallback={<PageLoader />}><ForgotPasswordPage /></Suspense>} />
                 <Route path="/reset-password" element={<Suspense fallback={<PageLoader />}><ResetPasswordPage /></Suspense>} />
+                <Route path="/oauth2/success" element={<Suspense fallback={<PageLoader />}><OAuth2RedirectHandler /></Suspense>} />
 
                 {/* Profile Completion Page */}
                 <Route
@@ -78,7 +80,7 @@ function App() {
                 {/* Layout Wrapper Pages */}
                 <Route element={<Layout />}>
                   <Route path="/home" element={<HomePage />} />
-                  
+
                   {/* Job and Worker routes restricted by role */}
                   <Route
                     path="/jobs"
